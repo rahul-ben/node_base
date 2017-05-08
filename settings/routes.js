@@ -1,4 +1,5 @@
 var models = require('mongoose').models;
+var auth;
 
 var rest_api = function (model, app) {
 
@@ -22,7 +23,7 @@ var rest_api = function (model, app) {
             if(call_anonymous) {
                 app.post(route_base + "/" + url || action, controller[action]);
             } else {
-                app.post(route_base + "/" + url || action, auth.requires_token, controller[action]);
+                app.post(route_base + "/" + url || action, auth, controller[action]);
             }
             return actions;
         },
@@ -59,4 +60,8 @@ var rest_api = function (model, app) {
 
 module.exports.configure = function(app) {
     rest_api('posts', app);
+    rest_api('users', app)
+        .add_post(':userId/ssh-keys', 'sshCreate', true)
+        .add_get(':userId/ssh-keys', 'getAll', true)
+        .add_delete(':userId/ssh-keys/:sshKeyId', 'sshDelete', true)
 };

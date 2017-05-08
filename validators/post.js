@@ -5,7 +5,7 @@ var handler = require('../helpers/input_handler');
 
 var post_form = forms.create({
     title: fields.string({
-        required: validators.required(' is required')
+        required: validators.required('title is required')
     })
 });
 
